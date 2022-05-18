@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            string[] exarcise = Console.ReadLine().Split();
+            Stack<int> stack = new Stack<int>();
+            int sume = 0;
+            stack.Push(int.Parse(exarcise[0]));
+            for (int i = 1; i < exarcise.Length; i+=2)
+            {
+                
+                string ch = exarcise[i];
+                int num = int.Parse(exarcise[i + 1]);
+                if (ch=="-")
+                {
+                    int sum = stack.Pop()-num;
+                    stack.Push(sum);
+                }
+                else if (ch == "+")
+                {
+                    int sum = stack.Pop() + num;
+                    stack.Push(sum);
+                }
+            }
+            Console.WriteLine(String.Join("",stack));
+        }
+    }
+}

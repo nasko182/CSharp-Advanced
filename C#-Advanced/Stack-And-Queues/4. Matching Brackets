@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            string exarcise = Console.ReadLine();
+            Stack<int> stack = new Stack<int>();
+
+            for (int i = 0; i < exarcise.Length; i++)
+            {
+                if (exarcise[i]=='(')
+                {
+                    stack.Push(i);
+                }
+                else if(exarcise[i]==')')
+                {
+                    int  startIndex = stack.Pop();
+                    int endIndex = i;
+                    string braces = exarcise.Substring(startIndex, endIndex - startIndex+1);
+                    Console.WriteLine(braces);
+                }
+            }
+           
+        }
+    }
+}

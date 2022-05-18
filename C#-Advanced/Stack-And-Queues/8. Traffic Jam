@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            Queue<string> queue = new Queue<string>();
+            int counter = 0;
+            string command;
+            while ((command = Console.ReadLine()) != "end")
+            {
+                if (command != "green")
+                {
+                    queue.Enqueue(command);
+                }
+                else
+                {
+                    if (queue.Count>0)
+                    {
+                        if (queue.Count > n)
+                        {
+                            for (int i = 0; i < n; i++)
+                            {
+                                Console.WriteLine($"{queue.Dequeue()} passed!");
+                                counter++;
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i <= queue.Count; i++)
+                            {
+                                Console.WriteLine($"{queue.Dequeue()} passed!");
+                                counter++;
+                            }
+                        }
+                    }
+                }
+            }
+            Console.WriteLine($"{counter} cars passed the crossroads.");
+        }
+    }
+}

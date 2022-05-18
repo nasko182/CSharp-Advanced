@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            int[] nums = Console.ReadLine()
+                 .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                 .Select(int.Parse)
+                 .ToArray();
+            Queue<int> queue = new Queue<int>(nums);
+            List<int> list = new List<int>();
+
+            while(queue.Count > 0)
+            { 
+                int num = queue.Dequeue();
+                if (num%2 == 0)
+                {
+                    list.Add(num);
+                }
+            }
+            Console.WriteLine(string.Join(", ",list));
+        }
+    }
+}
