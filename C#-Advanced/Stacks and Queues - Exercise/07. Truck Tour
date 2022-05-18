@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+    class Pump
+    {
+        public Pump(int number, int amount, int distance)
+        {
+            this.number = number;
+            this.amount = amount;
+            this.distance = distance;
+        }
+
+        public int number { get; set; }
+
+        public int amount { get; set; }
+
+        public int distance { get; set; }
+    }
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            Queue<Pump> queue = new Queue<Pump>();
+            int sum = 0;
+            int result = 0;
+            for (int i = 0; i < n; i++)
+            {
+                int[] input = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+                Pump pump = new Pump(i,input[0],input[1]);
+                queue.Enqueue(pump);
+            }
+            for (int i = 0; i < n; i++)
+            {
+                bool isLoop = false;
+                int counter = 0;
+                result = queue.Peek().number;
+                while (counter != n)
+                {
+                    isLoop = false;
+                    if (sum + queue.Peek().amount >= queue.Peek().distance)
+                    {
+                        sum += queue.Peek().amount - queue.Peek().distance;
+                        queue.Enqueue(queue.Dequeue());
+                        counter++;
+                    }
+                    else
+                    {
+                        queue.Enqueue(queue.Dequeue());
+                        sum = 0;
+                        counter = 0;
+                        isLoop = true;
+                        result = queue.Peek().number;
+                    }
+                    if (isLoop)
+                    {
+                        break;
+                    }
+                }
+                if (!isLoop)
+                {
+                    break;
+                }
+
+            }
+            Console.WriteLine(result);
+        }
+    }
+}
