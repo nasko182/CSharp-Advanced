@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            string parenthese = Console.ReadLine();
+            
+            bool IsEqual = true;
+            if (parenthese.Length%2==1)
+            {
+                Console.WriteLine("NO");
+                return;
+            }
+            else
+            {
+                Queue<char> queue = new Queue<char>();
+                Stack<char> stack = new Stack<char>();
+
+                for (int i = 0; i < parenthese.Length / 2; i++)
+                {
+                    queue.Enqueue(parenthese[i]);
+                }
+                for (int i = parenthese.Length / 2; i < parenthese.Length; i++)
+                {
+                    stack.Push(parenthese[i]);
+                }
+                for (int i = 0; i < parenthese.Length / 2; i++)
+                {
+                    if (queue.Peek() == '{' && stack.Peek() == '}')
+                    {
+                        queue.Dequeue();
+                        stack.Pop();
+                    }
+                    else if (queue.Peek() == '[' && stack.Peek() == ']')
+                    {
+                        queue.Dequeue();
+                        stack.Pop();
+                    }
+                    else if (queue.Peek() == '(' && stack.Peek() == ')')
+                    {
+                        queue.Dequeue();
+                        stack.Pop();
+                    }
+                    else
+                    {
+                        IsEqual = false;
+                        break;
+                    }
+                }
+            }
+            Console.WriteLine(IsEqual?"YES":"NO");
+        }
+    }
+}
