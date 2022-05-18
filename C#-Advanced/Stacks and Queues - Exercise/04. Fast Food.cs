@@ -16,27 +16,27 @@ namespace _01._Basic_Stack_Operations
                 .Split(" ")
                 .Select(int.Parse)
                 .ToArray();
-            Queue<int> queue = new Queue<int>(quantityOfOrder.Reverse());
+            Queue<int> queue = new Queue<int>(quantityOfOrder);
+            for (int i = 0; i < quantityOfOrder.Length; i++)
+            {
+                if (quantityOfFood>= queue.Peek())
+                {
+                    quantityOfFood -= queue.Dequeue();
+                }
+                else
+                {
+                    break;
+                }
+            }
             Console.WriteLine(quantityOfOrder.Max());
-            if (queue.Sum() <= quantityOfFood)
+
+            if (queue.Count == 0)
             {
                 Console.WriteLine("Orders complete");
             }
             else
             {
-                    Console.Write($"Orders left:");
-                for (int i = 0; i < quantityOfOrder.Length; i++)
-                {
-                        if (queue.Sum() > quantityOfFood)
-                        {
-                            Console.Write($" {queue.Dequeue()}");
-                            
-                        }
-                    else
-                    {
-                        break;
-                    }
-                }
+                Console.WriteLine($"Orders left: {string.Join(" ",queue)}");
             }
         }
     }
