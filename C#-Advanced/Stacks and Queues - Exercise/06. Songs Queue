@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            string[] songs = Console.ReadLine()
+                .Split(", ");
+            Queue<string> queue = new Queue<string>(songs);
+
+            while (queue.Any())
+            {
+                List<string> command = Console.ReadLine().Split().ToList();
+                if (command[0]=="Play")
+                {
+                    queue.Dequeue();
+                }
+                else if (command[0] == "Add")
+                {
+                    command.RemoveAt(0);
+                    string song = string.Join(" ", command);
+                    
+                    if (!queue.Contains(song))
+                    {
+                        queue.Enqueue(song);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{song} is already contained!");
+                    }
+                }
+                else if (command[0] == "Show")
+                {
+                    Console.WriteLine(string.Join(", ",queue));
+                }
+            }
+            Console.WriteLine("No more songs!");
+        }
+    }
+}
