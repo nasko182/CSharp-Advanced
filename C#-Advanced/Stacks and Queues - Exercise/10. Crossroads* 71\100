@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int greenLightStart = int.Parse(Console.ReadLine());
+            int freeWindow = int.Parse(Console.ReadLine());
+            int greenLight = 0;
+            int partsInside = 0;
+            int succesPassedCars = 0;
+            Queue<string> cars = new Queue<string>();
+            string command;
+            while ((command = Console.ReadLine()) != "END")
+            {
+                if (command == "green")
+                {
+                    greenLight = greenLightStart;
+                    while (cars.Peek().Length <= greenLight)
+                    {
+                        greenLight -= cars.Peek().Length;
+                        cars.Dequeue();
+                        succesPassedCars++;
+                        if (!cars.Any())
+                        {
+                            break;
+                        }
+                    }
+                    if (greenLight == 0)
+                    {
+                        continue;
+                    }
+                    if (cars.Any())
+                    {
+                        partsInside += greenLight - cars.Peek().Length;
+                        if (partsInside < 0)
+                        {
+                            partsInside *= -1;
+                        }
+                        if (partsInside <= freeWindow)
+                        {
+                            succesPassedCars++;
+                            cars.Dequeue();
+                        }
+                        else
+                        {
+                            string hittedCar = cars.Peek();
+                            char hitPosition = hittedCar[partsInside - 1];
+                            Console.WriteLine("A crash happened!");
+                            Console.WriteLine($"{hittedCar} was hit at {hitPosition}.");
+                            return;
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    cars.Enqueue(command);
+                }
+            }
+            Console.WriteLine("Everyone is safe.");
+            Console.WriteLine($"{succesPassedCars} total cars passed the crossroads.");
+        }
+    }
+}
