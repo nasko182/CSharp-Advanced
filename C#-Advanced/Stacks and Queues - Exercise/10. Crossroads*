@@ -24,14 +24,17 @@ namespace _01._Basic_Stack_Operations
                 if (command == "green")
                 {
                     greenLight = greenLightStart;
-                    while (cars.Peek().Length <= greenLight)
+                    if (cars.Any())
                     {
-                        greenLight -= cars.Peek().Length;
-                        cars.Dequeue();
-                        succesPassedCars++;
-                        if (!cars.Any())
+                        while (cars.Peek().Length <= greenLight)
                         {
-                            break;
+                            greenLight -= cars.Peek().Length;
+                            cars.Dequeue();
+                            succesPassedCars++;
+                            if (!cars.Any())
+                            {
+                                break;
+                            }
                         }
                     }
                     if (greenLight == 0)
@@ -53,9 +56,9 @@ namespace _01._Basic_Stack_Operations
                         else
                         {
                             string hittedCar = cars.Peek();
-                            char hitPosition = hittedCar[partsInside - 1];
+                            int hitPosition = greenLight + freeWindow;
                             Console.WriteLine("A crash happened!");
-                            Console.WriteLine($"{hittedCar} was hit at {hitPosition}.");
+                            Console.WriteLine($"{hittedCar} was hit at {hittedCar[hitPosition]}.");
                             return;
                         }
 
