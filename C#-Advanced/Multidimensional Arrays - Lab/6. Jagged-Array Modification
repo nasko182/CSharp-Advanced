@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int inputRows = int.Parse(Console.ReadLine());
+            int[][] matrix = new int[inputRows][];
+            for (int i = 0; i < inputRows; i++)
+            {
+                matrix[i] = Console.ReadLine()
+                    .Split()
+                    .Select(int.Parse)
+                    .ToArray();
+            }
+            string command;
+            while ((command = Console.ReadLine()) != "END")
+            {
+                string[] cmdArgs = command.Split();
+                string action = cmdArgs[0];
+                int row = int.Parse(cmdArgs[1]);
+                int column = int.Parse(cmdArgs[2]);
+                int value = int.Parse(cmdArgs[3]);
+                if (matrix.Length>row&&row>=0)
+                {
+                    int[] col = matrix[row];
+                    if (col.Length>column && column >= 0)
+                    {
+                        if (action == "Add")
+                        {
+                            matrix[row][column] += value;
+                        }
+                        else if (action == "Subtract")
+                        {
+                            matrix[row][column] -= value;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid coordinates");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid coordinates");
+                }
+            }
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                Console.WriteLine(String.Join(' ', matrix[i]));
+            }
+        }
+    }
+}
