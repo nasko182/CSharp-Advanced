@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int[] rowsAndCols = Console.ReadLine()
+                .Split(" ")
+                .Select(int.Parse)
+                .ToArray();
+            int rows = rowsAndCols[0];
+            int cols = rowsAndCols[0];
+            int[,] matrix = new int[rows, cols];
+            int sum = 0;
+            for (int row = 0; row < rows; row++)
+            {
+                int[] inputRows = Console.ReadLine()
+                .Split(" ")
+                .Select(int.Parse)
+                .ToArray();
+                sum+= inputRows[row];
+                for (int col = 0; col < cols; col++)
+                {
+                    matrix[row, col] = inputRows[col];
+                }
+            }
+            Console.WriteLine(sum);
+
+            
+        }
+    }
+}
