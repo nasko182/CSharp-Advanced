@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int[] rowsAndCols = Console.ReadLine()
+                .Split(", ")
+                .Select(int.Parse)
+                .ToArray();
+            int rows = rowsAndCols[0];
+            int cols = rowsAndCols[0];
+            int[,] matrix = new int[rows, cols];
+           // int sum = 0;
+           bool isFound= false;
+            for (int row = 0; row < rows; row++)
+            { 
+                string input = Console.ReadLine();
+               /*char[] inputRows = input
+                .Split("")
+                .Select(char.Parse)
+                .ToArray();*/
+                for (int col = 0; col < cols; col++)
+                {
+                    matrix[row, col] = input[col];
+                }
+            } 
+            char searchdChar = char.Parse(Console.ReadLine());
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    if (matrix[row,col]==searchdChar)
+                    {
+                        Console.WriteLine($"({row}, {col})");
+                        isFound = true;
+                        return;
+                    }
+                }
+            }
+            if (!isFound)
+            {
+                Console.WriteLine($"{searchdChar} does not occur in the matrix");
+            }
+            
+            
+        }
+    }
+}
