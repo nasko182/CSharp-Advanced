@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int[] rowsAndCols = Console.ReadLine()
+                .Split(", ")
+                .Select(int.Parse)
+                .ToArray();
+            int rows = rowsAndCols[0];
+            int cols = rowsAndCols[1];
+            int[,] matrix = new int[rows, cols];
+            int bigest2x2Sum = int.MinValue;
+            int[,] bigest2x2  = new int[2, 2];
+            int safeRow = 0;
+            int safeCol = 0;
+            for (int row = 0; row < rows; row++)
+            {
+                int[] inputRows = Console.ReadLine()
+                .Split(", ")
+                .Select(int.Parse)
+                .ToArray();
+                for (int col = 0; col < cols; col++)
+                {
+                    matrix[row, col] = inputRows[col];
+                }
+            }
+            for (int row = 0; row < rows-1; row++)
+            {
+                for (int col = 0; col < cols-1; col++)
+                {
+                    int current2x2 = matrix[row, col]
+                        + matrix[row, col+1]
+                        + matrix[row+1,col]
+                        + matrix[row+1,col+1];
+                    if (current2x2 > bigest2x2Sum)
+                    {
+                        bigest2x2Sum = current2x2;
+                        safeCol = col;
+                        safeRow = row;
+                    }
+                }
+            }
+            bigest2x2[0,0] = matrix[safeRow, safeCol];
+            bigest2x2[0,1]= matrix[safeRow, safeCol+1];
+            bigest2x2[1,0]= matrix[safeRow+1, safeCol];
+            bigest2x2[1,1]= matrix[safeRow+1, safeCol+1];
+
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    Console.Write($"{bigest2x2[i,j]} ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(bigest2x2Sum);
+
+        }
+    }
+}
