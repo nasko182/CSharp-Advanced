@@ -1,0 +1,77 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int[][] JA = new int[n][];
+            for (int i = 0; i < n; i++)
+            {
+                int[] input = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+                JA[i] = input;
+            }
+            for (int i = 0; i < n - 1; i++)
+            {
+                if (JA[i].Length == JA[i + 1].Length)
+                {
+                    for (int j = i; j < i + 2; j++)
+                    {
+                        for (int k = 0; k < JA[j].Length; k++)
+                        {
+                            JA[j][k] *= 2;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int j = i; j < i + 2; j++)
+                    {
+                        for (int k = 0; k < JA[j].Length; k++)
+                        {
+                            JA[j][k] /= 2;
+                        }
+                    }
+                }
+            }
+            string command;
+            while ((command = Console.ReadLine()) != "End")
+            {
+                string[] cmdArgs = command.Split();
+                string action = cmdArgs[0];
+                int row = int.Parse(cmdArgs[1]);
+                int col = int.Parse(cmdArgs[2]);
+                int value = int.Parse(cmdArgs[3]);
+                if (JA.GetLength(0) > row && row >= 0)
+                {
+                    if (JA[row].Length > col && col >= 0)
+                    {
+                        if (action == "Add")
+                        {
+                            JA[row][col] += value;
+                        }
+                        else
+                        {
+                            JA[row][col] -= value;
+                        }
+                    }
+                }
+            }
+            foreach (int[] row in JA)
+            {
+                Console.WriteLine(string.Join(' ', row));
+            }
+        }
+    }
+}
