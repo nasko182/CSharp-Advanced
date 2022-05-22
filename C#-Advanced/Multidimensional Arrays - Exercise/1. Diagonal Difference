@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int[,] matrix = new int[n,n];
+            int primaryDiagonal = 0;
+            int secondaryDiagonal = 0;
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                int[] input = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+                for (int col = 0; col < matrix.GetLength(1); col++)
+                {
+                    matrix[row,col]= input[col];
+
+                }
+            }
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                primaryDiagonal += matrix[row, row];
+                int index = (matrix.GetLength(0) - 1) - row;
+                secondaryDiagonal += matrix[row, index];
+            }
+            int diff = primaryDiagonal - secondaryDiagonal;
+            if (diff<0)
+            {
+                diff *= -1;
+            }
+            Console.WriteLine(diff);
+
+
+        }
+    }
+}
