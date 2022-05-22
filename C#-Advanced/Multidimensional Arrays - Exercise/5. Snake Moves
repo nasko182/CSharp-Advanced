@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int[] rowsAndCols = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            int rows = rowsAndCols[0];
+            int cols = rowsAndCols[1];
+            int cells = rows * cols;
+            string input = Console.ReadLine();
+            char[] chars = input.ToCharArray();
+            int lenght = ((cells / input.Length)+1);
+            char[] snake = new char[lenght*input.Length];
+            char[,] matrix = new char[rows,cols];
+            int counter = 0;
+            for (int i = 0; i < snake.Length; i+=chars.Length)
+            {
+                for (int j = 0; j < chars.Length; j++)
+                {
+                    snake[j+i] = chars[j];
+                }
+            }
+            for (int row = 0; row < rows; row++)
+            {
+                if (row%2==0)
+                {
+                    for (int col = 0; col < cols; col++)
+                    {
+                        matrix[row, col] = snake[counter];
+                        counter++;
+                        Console.Write(matrix[row, col] );
+                    }
+                Console.WriteLine();
+                }
+                else
+                {
+                    char[] reversedSnake = new char[cols];
+                    for (int i = 0; i < cols; i++)
+                    {
+                        reversedSnake[i] = snake[counter];
+                        counter++;
+                    }
+                        reversedSnake = reversedSnake.Reverse().ToArray();
+                    for (int col = 0; col < cols; col++)
+                    {
+                        matrix[row, col] = reversedSnake[col];
+                        Console.Write(matrix[row, col] );
+                    }
+                    Console.WriteLine();
+                }
+            }
+
+            //matrix[row, col] = snake[counter];
+            //counter++;
+            //Console.WriteLine(matrix[row, col] + " ");
+        }
+    }
+}
