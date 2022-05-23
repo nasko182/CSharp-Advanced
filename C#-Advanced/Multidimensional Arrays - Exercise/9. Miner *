@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            string[] commands = Console.ReadLine().Split(' ');
+            char[,] field = new char[n, n];
+            for (int i = 0; i < field.GetLength(0); i++)
+            {
+                string inputString = Console.ReadLine();
+                char[] input = inputString.Split().Select(char.Parse).ToArray();
+                for (int j = 0; j < field.GetLength(1); j++)
+                {
+                    field[i, j] = input[j];
+                }
+            }
+
+            int coalsCount = 0;
+            int rowIndex = 0;
+            int colIndex = 0;
+            for (int i = 0; i < field.GetLength(0); i++)
+            {
+                for (int j = 0; j < field.GetLength(1); j++)
+                {
+                    if (field[i, j] == 'c')
+                    {
+                        coalsCount++;
+                    }
+                    else if (field[i, j] == 's')
+                    {
+                        colIndex = j;
+                        rowIndex = i;
+                    }
+                }
+            }
+
+            for (int i = 0; i < commands.Length; i++)
+            {
+                string command = commands[i];
+                bool isInside = false;
+                if (command == "left" && IsInside(field, rowIndex, colIndex - 1))
+                {
+                    isInside = true;
+                    colIndex--;
+                }
+                else if (command == "right" && IsInside(field, rowIndex, colIndex + 1))
+                {
+                    isInside = true;
+                    colIndex++;
+                }
+                else if (command == "up" && IsInside(field, rowIndex-1, colIndex))
+                {
+                    isInside = true;
+                    rowIndex--;
+                }
+                else if (command == "down" && IsInside(field, rowIndex+1, colIndex))
+                {
+                    isInside = true;
+                    rowIndex++;
+                }
+                if (isInside)
+                {
+                    if (field[rowIndex,colIndex]=='c')
+                    {
+                        coalsCount--;
+                        field[rowIndex,colIndex]='*';
+                    }
+                    else if (field[rowIndex,colIndex]=='e')
+                    {
+                        Console.WriteLine($"Game over! ({rowIndex}, {colIndex})");
+                        return;
+                    }
+                    if (coalsCount == 0)
+                    {
+                        Console.WriteLine($"You collected all coals! ({rowIndex}, {colIndex})");
+                        return;
+                    }
+                }
+            }
+            Console.WriteLine($"{coalsCount} coals left. ({rowIndex}, {colIndex})");
+        }
+
+        private static bool IsInside(char[,] field, int startRow, int startCol)
+        {
+            return startRow >= 0 && startRow < field.GetLength(0) && startCol >= 0 && startCol < field.GetLength(1);
+        }
+
+    }
+}
