@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int[,] matrix = new int[n, n];
+            for (int i = 0; i < n; i++)
+            {
+                int[] input = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+                for (int j = 0; j < n; j++)
+                {
+                    matrix[i, j] = input[j];
+                }
+            }
+            string[] bombIndexes = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .ToArray();
+            for (int i = 0; i < bombIndexes.Length; i++)
+            {
+                int[] rowAndCol = bombIndexes[i].Split(',').Select(int.Parse).ToArray();
+                int row = rowAndCol[0];
+                int col = rowAndCol[1];
+                if (matrix[row,col]<=0)
+                {
+                    continue;
+                }
+                else
+                {
+
+                    if (IsValid(matrix, row - 1, col))
+                    {
+                        matrix[row - 1, col] -= matrix[row, col];
+                    }
+                    if (IsValid(matrix, row - 1, col + 1))
+                    {
+                        matrix[row - 1, col + 1] -= matrix[row, col];
+                    }
+                    if (IsValid(matrix, row, col + 1))
+                    {
+                        matrix[row, col + 1] -= matrix[row, col];
+                    }
+                    if (IsValid(matrix, row + 1, col + 1))
+                    {
+                        matrix[row + 1, col + 1] -= matrix[row, col];
+                    }
+                    if (IsValid(matrix, row + 1, col))
+                    {
+                        matrix[row + 1, col] -= matrix[row, col];
+                    }
+                    if (IsValid(matrix, row + 1, col - 1))
+                    {
+                        matrix[row + 1, col - 1] -= matrix[row, col];
+                    }
+                    if (IsValid(matrix, row, col - 1))
+                    {
+                        matrix[row, col - 1] -= matrix[row, col];
+                    }
+                    if (IsValid(matrix, row - 1, col - 1))
+                    {
+                        matrix[row - 1, col - 1] -= matrix[row, col];
+                    }
+                    matrix[row, col] = 0;
+                }
+            }
+            int alliveCells = 0;
+            int sum = 0;
+            foreach (int cell in matrix)
+            {
+                if (cell > 0)
+                {
+                    alliveCells++;
+                    sum += cell;
+                }
+            }
+            Console.WriteLine($"Alive cells: {alliveCells}");
+            Console.WriteLine($"Sum: {sum}");
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    Console.Write(matrix[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+
+
+
+        }
+
+        private static bool IsValid(int[,] matrix, int row, int col)
+        {
+            return row >= 0 && row < matrix.GetLength(0) && col >= 0 && col < matrix.GetLength(1) && matrix[row, col] > 0;
+        }
+    }
+}
