@@ -13,97 +13,88 @@ namespace _01._Basic_Stack_Operations
         static void Main(string[] args)
         {
             int n = int.Parse(Console.ReadLine());
-            int[,] matrix = new int[n, n];
+            char[,] matrix = new char[n, n];
             for (int i = 0; i < n; i++)
             {
-                int[] input = Console.ReadLine()
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                .Select(int.Parse)
-                .ToArray();
+                string input = Console.ReadLine();
                 for (int j = 0; j < n; j++)
                 {
                     matrix[i, j] = input[j];
                 }
             }
-            string[] bombIndexes = Console.ReadLine()
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                .ToArray();
-            for (int i = 0; i < bombIndexes.Length; i++)
+
+            int removeCounter = 0;
+            while (true)
             {
-                int[] rowAndCol = bombIndexes[i].Split(',').Select(int.Parse).ToArray();
-                int row = rowAndCol[0];
-                int col = rowAndCol[1];
-                if (matrix[row,col]<=0)
+                int maxKills = 0;
+                int safeRow = 0;
+                int safeCol = 0;
+                for (int i = 0; i < n; i++)
                 {
-                    continue;
+                    for (int j = 0; j < n; j++)
+                    {
+                        int currentKills = 0;
+                        if (matrix[i, j] == 'K')
+                        {
+                            if (IsInside(matrix, i - 2, j + 1) && matrix[i - 2, j + 1] == 'K')
+                            {
+                                currentKills++;
+                            }
+                            if (IsInside(matrix, i - 2, j - 1) && matrix[i - 2, j - 1] == 'K')
+                            {
+                                currentKills++;
+                            }
+                            if (IsInside(matrix, i + 2, j + 1) && matrix[i + 2, j + 1] == 'K')
+                            {
+                                currentKills++;
+                            }
+                            if (IsInside(matrix, i + 2, j - 1) && matrix[i + 2, j - 1] == 'K')
+                            {
+                                currentKills++;
+                            }
+                            if (IsInside(matrix, i - 1, j + 2) && matrix[i - 1, j + 2] == 'K')
+                            {
+                                currentKills++;
+                            }
+                            if (IsInside(matrix, i - 1, j - 2) && matrix[i - 1, j - 2] == 'K')
+                            {
+                                currentKills++;
+                            }
+                            if (IsInside(matrix, i + 1, j + 2) && matrix[i + 1, j + 2] == 'K')
+                            {
+                                currentKills++;
+                            }
+                            if (IsInside(matrix, i + 1, j - 2) && matrix[i + 1, j - 2] == 'K')
+                            {
+                                currentKills++;
+                            }
+                            if (currentKills > maxKills)
+                            {
+                                maxKills = currentKills;
+                                safeRow = i;
+                                safeCol = j;
+                            }
+                        }
+                    }
+                }
+                if (maxKills != 0)
+                {
+                    matrix[safeRow, safeCol] = '0';
+                    removeCounter++;
+                    safeCol = 0;
+                    safeRow = 0;
                 }
                 else
                 {
-
-                    if (IsValid(matrix, row - 1, col))
-                    {
-                        matrix[row - 1, col] -= matrix[row, col];
-                    }
-                    if (IsValid(matrix, row - 1, col + 1))
-                    {
-                        matrix[row - 1, col + 1] -= matrix[row, col];
-                    }
-                    if (IsValid(matrix, row, col + 1))
-                    {
-                        matrix[row, col + 1] -= matrix[row, col];
-                    }
-                    if (IsValid(matrix, row + 1, col + 1))
-                    {
-                        matrix[row + 1, col + 1] -= matrix[row, col];
-                    }
-                    if (IsValid(matrix, row + 1, col))
-                    {
-                        matrix[row + 1, col] -= matrix[row, col];
-                    }
-                    if (IsValid(matrix, row + 1, col - 1))
-                    {
-                        matrix[row + 1, col - 1] -= matrix[row, col];
-                    }
-                    if (IsValid(matrix, row, col - 1))
-                    {
-                        matrix[row, col - 1] -= matrix[row, col];
-                    }
-                    if (IsValid(matrix, row - 1, col - 1))
-                    {
-                        matrix[row - 1, col - 1] -= matrix[row, col];
-                    }
-                    matrix[row, col] = 0;
+                        Console.WriteLine(removeCounter);
+                        break;
                 }
             }
-            int alliveCells = 0;
-            int sum = 0;
-            foreach (int cell in matrix)
-            {
-                if (cell > 0)
-                {
-                    alliveCells++;
-                    sum += cell;
-                }
-            }
-            Console.WriteLine($"Alive cells: {alliveCells}");
-            Console.WriteLine($"Sum: {sum}");
-
-            for (int i = 0; i < matrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < matrix.GetLength(1); j++)
-                {
-                    Console.Write(matrix[i, j] + " ");
-                }
-                Console.WriteLine();
-            }
-
-
-
         }
 
-        private static bool IsValid(int[,] matrix, int row, int col)
+        private static bool IsInside(char[,] matrix, int row, int col)
         {
-            return row >= 0 && row < matrix.GetLength(0) && col >= 0 && col < matrix.GetLength(1) && matrix[row, col] > 0;
+            return row >= 0 && row < matrix.GetLength(0) && col >= 0 && col < matrix.GetLength(1);
         }
     }
 }
