@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            List<int> numbers =Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
+            List<int> maxNum = new List<int>();
+            for (int i = 0; i < 3; i++)
+            {
+                int max = int.MinValue;
+                bool isTrue = false;
+                for (int j = 0; j < numbers.Count; j++)
+                {
+                        if (numbers[j]>max)
+                        {
+                            max = numbers[j];
+                        }
+                        isTrue = true;
+                }
+                if (isTrue)
+                {
+                    maxNum.Add(max);
+                    numbers.Remove(max);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Console.WriteLine(String.Join(' ', maxNum));
+              
+              
+        }     
+    }         
+}
