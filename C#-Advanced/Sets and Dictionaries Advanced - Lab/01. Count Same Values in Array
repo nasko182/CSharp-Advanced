@@ -1,0 +1,42 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<double, int> dickt = new Dictionary<double, int>();
+            double[] input = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(double.Parse)
+                .ToArray();
+
+            foreach (double d in input)
+            {
+                if (dickt.ContainsKey(d))
+                {
+                    dickt[d] += 1;
+                }
+                else
+                {
+                    dickt.Add(d, 1);
+                }
+            }
+
+            foreach (var d in dickt)
+            {
+                Console.WriteLine($"{d.Key} - {d.Value} times");
+            }
+              
+              
+              
+        }     
+    }         
+}
