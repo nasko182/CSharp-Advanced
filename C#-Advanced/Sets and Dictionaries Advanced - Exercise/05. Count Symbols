@@ -1,0 +1,42 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Exarcise
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+            Dictionary<char, int> dic = new Dictionary<char, int>();
+
+            string input = Console.ReadLine();
+
+            foreach (char c in input)
+            {
+                if (dic.ContainsKey(c))
+                {
+                    dic[c]++;
+                }
+                else
+                {
+                    dic.Add(c, 1);
+                }
+            }
+
+            foreach (var c in dic.OrderBy(k => k.Key))
+            {
+                Console.WriteLine($"{c.Key}: {c.Value} time/s");
+            }
+
+
+
+        }
+    }
+}
