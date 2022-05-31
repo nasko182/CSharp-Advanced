@@ -1,0 +1,102 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Exarcise
+{
+    class VlogerActivity
+    {
+        public string Username { get; set; }
+
+        public List<string> Followers { get; set; } = new List<string>();
+
+        public List<string> Following { get; set; } = new List<string>();
+    }
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+            HashSet<string> vlogers = new HashSet<string>();
+            Dictionary<string, VlogerActivity> vlogersDic = new Dictionary<string, VlogerActivity>();
+
+            string command;
+            while ((command = Console.ReadLine()) != "Statistics")
+            {
+                string[] cmdArgs = command.Split();
+                string username = cmdArgs[0];
+                string action = cmdArgs[1];
+                string followedPlus = cmdArgs[2];
+
+                if (action == "joined")
+                {
+                    if (!vlogers.Contains(username))
+                    {
+                        vlogers.Add(username);
+                        vlogersDic.Add(username, new VlogerActivity());
+                        vlogersDic[username].Username=username;
+                    }
+                }
+                else
+                {
+                    if (vlogers.Contains(username) && vlogers.Contains(followedPlus) && username != followedPlus)
+                    {
+                        if (!vlogersDic[followedPlus].Followers.Contains(username))
+                        {
+                            vlogersDic[followedPlus].Followers.Add(username);
+                            vlogersDic[username].Following.Add(followedPlus);
+                        }
+                    }
+                }
+            }
+
+
+            Console.WriteLine($"The V-Logger has a total of {vlogers.Count} vloggers in its logs.");
+            string mostFamousVlogger = "";
+            int mostFollowersCount = int.MinValue;
+            int fewerFollowingCount = int.MaxValue;
+            foreach ( var vloger in vlogersDic)
+            {
+                if (vloger.Value.Followers.Count>mostFollowersCount)
+                {
+                    mostFamousVlogger = vloger.Key;
+                    mostFollowersCount = vloger.Value.Followers.Count;
+                    fewerFollowingCount = vloger.Value.Following.Count;
+                }
+                else if (vloger.Value.Followers.Count == mostFollowersCount&&
+                    vloger.Value.Following.Count<fewerFollowingCount)
+                {
+                    mostFamousVlogger = vloger.Key;
+                    mostFollowersCount = vloger.Value.Followers.Count;
+                    fewerFollowingCount = vloger.Value.Following.Count;
+                }
+            }
+            Console.WriteLine($"1. {mostFamousVlogger} : {mostFollowersCount} followers, {fewerFollowingCount} following");
+            if (mostFollowersCount!=0)
+            {
+                foreach (var follower in vlogersDic[mostFamousVlogger].Followers.OrderBy(f=>f))
+                {
+                    Console.WriteLine($"*  {follower}");
+                }
+            }
+            vlogersDic.Remove(mostFamousVlogger);
+
+            int counter = 2;
+            foreach (var vloger in vlogersDic.OrderByDescending(f=>f.Value.Followers.Count).ThenBy(f=>f.Value.Following.Count))
+            {
+                Console.WriteLine($"{counter}. {vloger.Key} : {vloger.Value.Followers.Count} followers, {vloger.Value.Following.Count} following");
+                counter++;
+            }
+
+
+
+
+
+        }
+    }
+}
