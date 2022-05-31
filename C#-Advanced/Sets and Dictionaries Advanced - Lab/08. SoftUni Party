@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Exarcise
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+            HashSet<string> reservationList = new HashSet<string>();
+            HashSet<string> VIP = new HashSet<string>();
+            HashSet<string> regular = new HashSet<string>();
+
+            string reservation;
+            while ((reservation = Console.ReadLine()) != "PARTY")
+            {
+                if (reservation.Length == 8)
+                {
+                    if (Char.IsDigit(reservation[0]))
+                    {
+                        VIP.Add(reservation);
+                    }
+                    else
+                    {
+                        regular.Add(reservation);
+                    }
+                }
+            }
+
+            string income;
+            while ((income = Console.ReadLine()) != "END")
+            {
+                if (income.Length == 8)
+                {
+                    if (VIP.Contains(income))
+                    {
+                        VIP.Remove(income);
+                    }
+                    else if (regular.Contains(income))
+                    {
+                        regular.Remove(income);
+                    }
+                }
+            }
+
+            int absent = VIP.Count + regular.Count;
+
+            Console.WriteLine(absent);
+            foreach (var guest in VIP)
+            {
+                Console.WriteLine(guest);
+            }
+            foreach (var guest in regular)
+            {
+                Console.WriteLine(guest);
+            }
+
+
+
+        }
+    }
+}
