@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Exarcise
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+           HashSet<string> set = new HashSet<string>();
+
+            string command;
+            while ((command = Console.ReadLine()) != "END")
+            {
+                string[] cmdArgs = command.Split(", ");
+                string direction = cmdArgs[0];
+                string carNumber = cmdArgs[1];
+
+                if (direction=="IN")
+                {
+                    set.Add(carNumber);
+                }
+                else
+                {
+                    if (set.Contains(carNumber))
+                    {
+                        set.Remove(carNumber);
+                    }
+                }
+            }
+
+            if (set.Count!=0)
+            {
+                Console.WriteLine(String.Join('\n', set));
+            }
+            else
+            {
+                Console.WriteLine("Parking Lot is Empty");
+            }
+
+
+
+        }
+    }
+}
