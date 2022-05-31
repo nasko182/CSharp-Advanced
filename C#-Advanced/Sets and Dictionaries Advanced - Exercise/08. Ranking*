@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Exarcise
+{
+    class User
+    {
+        public User(string userName, string contest,int points)
+        {
+            this.UserName = userName;
+            this.contests.Add(contest,points);
+            this.points = points;
+        }
+
+        public string UserName { get; set; }
+
+        public Dictionary<string,int> contests { get; set; } = new Dictionary<string, int>();
+
+        public int points { get; set; } 
+    }
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            string command;
+            while ((command = Console.ReadLine()) != "end of contests")
+            {
+                string[] cmdArgs = command.Split(':');
+                string contest = cmdArgs[0];
+                string pass = cmdArgs[1];
+                if (!dic.ContainsKey(contest))
+                {
+                    dic.Add(contest, pass);
+                }
+            }
+            List<User> users = new List<User>();
+            string input;
+            while ((input = Console.ReadLine()) != "end of submissions")
+            {
+                string[] cmdArgs = input.Split("=>");
+                string contest = cmdArgs[0];
+                string password = cmdArgs[1];
+                string username = cmdArgs[2];
+                int points = int.Parse(cmdArgs[3]);
+                if (dic.ContainsKey(contest))
+                {
+                    if (dic[contest]==password)
+                    {
+                        if (users.Any(u=>u.UserName==username))
+                        {
+                            var user = users.Find(u => u.UserName == username);
+                            if (user.contests.ContainsKey(contest))
+                            {
+                                if (user.contests[contest] < points)
+                                {
+                                    int currentPoints = user.contests[contest];
+                                    user.contests[contest] = points;
+                                    user.points -= currentPoints;
+                                    user.points += points;
+
+                                }
+                            }
+                            else
+                            {
+                                user.contests.Add(contest, points);
+                                user.points+=points;
+                            }
+                        }
+                        else
+                        {
+                            
+                            users.Add(new User(username,contest,points)); 
+                        }
+                    }
+                }
+            }
+            int maxPoints = users.Max(u => u.points);
+            var bestUser = users.Find(u => u.points == maxPoints);
+            Console.WriteLine($"Best candidate is {bestUser.UserName} with total {bestUser.points} points.");
+            Console.WriteLine("Ranking:");
+            foreach (var user in users.OrderBy(u=>u.UserName))
+            {
+                Console.WriteLine(user.UserName);
+                foreach (var contest in user.contests.OrderByDescending(p => p.Value))
+                {
+                    Console.WriteLine($"#  {contest.Key} -> {contest.Value}");
+                }  
+            }
+        }
+    }
+}
