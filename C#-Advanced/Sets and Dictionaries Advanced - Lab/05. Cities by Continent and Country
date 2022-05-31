@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Exarcise
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+            Dictionary<string, Dictionary<string, List<string>>> continents = new Dictionary<string, Dictionary<string, List<string>>>();
+
+            int n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                string[] input = Console.ReadLine().Split();
+
+                string continent = input[0];
+                string country = input[1];
+                string city = input[2];
+
+                if (continents.ContainsKey(continent))
+                {
+                    var currentContinent = continents[continent];
+                    if (currentContinent.ContainsKey(country))
+                    {
+                        currentContinent[country].Add(city);
+                    }
+                    else
+                    {
+                        currentContinent.Add(country,new List<string> { city });
+                    }
+                }
+                else
+                {
+                    List<string> cites = new List<string>();
+                    cites.Add(city);
+                    Dictionary<string, List<string>> countryToAdd = new Dictionary<string , List<string>>();
+                    countryToAdd.Add(country,cites);
+
+                    continents.Add(continent , countryToAdd);
+                }
+            }
+            foreach (var continent in continents)
+            {
+                Console.WriteLine($"{continent.Key}:");
+                foreach (var country in continent.Value)
+                {
+                    Console.WriteLine($"  {country.Key} -> {string.Join(", ",country.Value)}");
+                }
+            }
+        }
+    }
+}
