@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Exarcise
+{
+    class Product
+    {
+        public Product(string type, decimal price)
+        {
+            Type = type;
+            Price = price;
+        }
+
+        public string Type { get; set; }
+
+        public decimal Price { get; set; }
+    }
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            
+
+            Dictionary<string, List<Product>> products = new Dictionary<string, List<Product>>();
+
+            string command;
+            while ((command = Console.ReadLine()) != "Revision")
+            {
+                string[] cmdArgs = command.Split(", ");
+                string market = cmdArgs[0];
+                string type = cmdArgs[1];
+                decimal price = decimal.Parse(cmdArgs[2]);
+                string prc = price.ToString();
+                if (prc[prc.Length-1]=='0')
+                {
+                    price = decimal.Parse(prc.Remove(prc.Length-1));
+                }
+
+                if (products.ContainsKey(market))
+                {
+                    if (products[market].Any(p=>p.Type==type))
+                    {
+                        products[market].Find(p => p.Type == type).Price=price;
+                    }
+                    else
+                    {
+                        products[market].Add( new Product(type, price) );
+                    }
+                }
+                else
+                {
+                    products.Add(market, new List<Product> { new Product(type, price) });
+                }
+
+            }
+            foreach (var market in products.OrderBy(p=> p .Key))
+            {
+                Console.WriteLine($"{market.Key}->");
+                foreach (var item in market.Value)
+                {
+                    Console.WriteLine($"Product: {item.Type}, Price: {item.Price}");
+                }
+            }
+              
+              
+        }     
+    }         
+}
