@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Exarcise
+{
+
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+            Dictionary<string, int> submissions = new Dictionary<string, int>();
+            Dictionary<string, int> results = new Dictionary<string, int>();
+
+            string command;
+            while ((command = Console.ReadLine()) != "exam finished")
+            {
+                string[] cmdArgs = command.Split('-');
+                string username = cmdArgs[0];
+                if (cmdArgs.Length == 3)
+                {
+                    string language = cmdArgs[1];
+                    int points = int.Parse(cmdArgs[2]);
+                    if (submissions.ContainsKey(language))
+                    {
+                        submissions[language]++;
+                    }
+                    else
+                    {
+                        submissions.Add(language, 1);
+                    }
+                    if (results.ContainsKey(username))
+                    {
+                        if (results[username]<points)
+                        {
+                            results[username] = points;
+                            
+                        }
+                    }
+                    else
+                    {
+                        results.Add(username, points);
+                    }
+                }
+                else
+                {
+                    results.Remove(username);
+                }
+
+            }
+            Console.WriteLine("Results:");
+            foreach(var user in results.OrderByDescending(p => p.Value).ThenBy(n=>n.Key))
+            {
+                Console.WriteLine($"{user.Key} | {user.Value}");
+            }
+            Console.WriteLine("Submissions:");
+            foreach (var user in submissions.OrderBy(p => p.Key))
+            {
+                Console.WriteLine($"{user.Key} - {user.Value}");
+            }
+
+
+        }
+    }
+}
