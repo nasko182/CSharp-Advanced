@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+            using StreamReader sr = new StreamReader(@"C:\Users\nasko\Desktop\FilesAndStreams\input.txt");
+                    using StreamWriter sw = new StreamWriter(@"C:\Users\nasko\Desktop\FilesAndStreams\output.txt");
+            int counter = 1;
+            while (!sr.EndOfStream)
+            {
+                counter++;
+                if (counter%2==1)
+                {
+                    sw.WriteLine(sr.ReadLine());
+                }
+                else
+                {
+                    sr.ReadLine();
+                }
+            }
+                    sw.Close();
+                    sr.Close();
+
+        }
+    }
+}
