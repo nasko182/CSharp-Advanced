@@ -1,0 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+
+            int[] input = Console.ReadLine()
+               .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+               .Select(int.Parse)
+               .ToArray();
+            int n = int.Parse(Console.ReadLine());
+            input = input.Reverse().ToArray();
+            input = input.Where(x => x % n != 0).ToArray();
+
+            Console.WriteLine(String.Join(' ', input));
+
+        }
+    }
+}
