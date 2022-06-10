@@ -1,0 +1,106 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace _01._Basic_Stack_Operations
+{
+    class Student
+    {
+        public Student(string name, int age)
+        {
+            this.Name = name;
+            this.Age = age;
+        }
+        public int Age { get; set; }
+
+        public string Name { get; set; }
+    }
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+
+            int n = int.Parse(Console.ReadLine());
+            var students = new List<Student>();
+            for (int i = 0; i < n; i++)
+            {
+                string[] input = Console.ReadLine().Split(", ");
+                string name = input[0];
+                int studentAge = int.Parse(input[1]);
+                var student = new Student(name,studentAge);
+                students.Add(student);
+            }
+
+            var condition = Console.ReadLine();
+            int age = int.Parse(Console.ReadLine());
+            var format = Console.ReadLine().Split();
+
+             
+            students = Where2(students,age,condition);
+
+            if (format.Count()==1)
+            {
+                if (format[0] == "name")
+                {
+                    foreach (var student in students)
+                    {
+                        Console.WriteLine(student.Name);
+                    }
+
+                }
+                else
+                {
+                    foreach (var student in students)
+                    {
+                        Console.WriteLine(student.Age);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var student in students)
+                {
+                    Console.WriteLine($"{student.Name} - {student.Age}");
+                }
+            }
+            
+
+
+
+        }
+        static List<Student> Where2(List<Student> students, int age,string condition)
+        {
+            var newStudents = new List<Student>();
+            if (condition=="younger")
+            {
+                foreach (var student in students)
+                {
+                    if (student.Age <= age)
+                    {
+                        newStudents.Add(student);
+                    }
+
+                }
+            }
+            else if(condition=="older")
+            {
+                foreach (var student in students)
+                {
+                    if (student.Age >= age)
+                    {
+                        newStudents.Add(student);
+                    }
+
+                }
+            }
+            return newStudents;
+        }
+    }
+}
