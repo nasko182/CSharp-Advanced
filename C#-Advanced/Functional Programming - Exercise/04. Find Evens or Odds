@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _01._Basic_Stack_Operations
+{
+    
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+            int[] input = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            int minNum = input[0];
+            int maxNum = input[1];
+            int[] nums = Enumerable.Range(minNum,maxNum-minNum+1).ToArray();
+            string action = Console.ReadLine();
+
+            Print(nums,action);
+        }
+        static void Print(IEnumerable<int> nums,string action)
+        {
+            var newNums = new List<int>();
+            if (action =="odd")
+            {
+                newNums = nums.Where(n=>Math.Abs(n % 2) ==1).ToList();
+            }
+            else if(action =="even")
+            {
+                newNums = nums.Where(n=>n%2==0).ToList();
+            }
+            Console.WriteLine(String.Join(' ', newNums));
+        }
+    }
+}
