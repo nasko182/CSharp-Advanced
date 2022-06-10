@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+            int n = int.Parse(Console.ReadLine());
+            var names = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .ToArray();
+
+            names = names.Where(s => s.Length <= n).ToArray();
+
+            Console.WriteLine(String.Join('\n', names));
+
+        }
+    }
+}
