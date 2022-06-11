@@ -1,0 +1,173 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace _01._Basic_Stack_Operations
+{
+
+    internal class Program
+
+    {
+        static void Main(string[] args)
+        {
+
+
+
+            List<string> guests = Console.ReadLine().Split().ToList();
+            List<string> newList = new List<string>(guests);
+            string command;
+            while ((command = Console.ReadLine()) != "Print")
+            {
+                string[] cmdArgs = command.Split(';');
+                string action = cmdArgs[0];
+                string type = cmdArgs[1];
+                List<string> newNewList = new List<string>(newList);
+
+
+
+                if (action=="Add filter")
+                {
+                    if (type=="Starts with")
+                    {
+                        char letter = char.Parse(cmdArgs[2]);
+                        foreach (var guest in newList)
+                        {
+                            if (guest.StartsWith(letter))
+                            {
+                                if (newNewList.Contains(guest))
+                                {
+                                    newNewList.Remove(guest);
+                                }
+                            }
+                            newList = newNewList;
+                        }
+                    }
+                    else if (type=="Ends with")
+                    {
+                        char letter = char.Parse(cmdArgs[2]);
+                        foreach (var guest in newList)
+                        {
+                            if (guest.EndsWith(letter))
+                            {
+                                if (newNewList.Contains(guest))
+                                {
+                                    newNewList.Remove(guest);
+                                }
+                            }
+                            newList = newNewList;
+                        }
+                    }
+                    else if (type == "Contains")
+                    {
+                        char letter = char.Parse(cmdArgs[2]);
+                        foreach (var guest in newList)
+                        {
+                            if (guest.Contains(letter))
+                            {
+                                if (newNewList.Contains(guest))
+                                {
+                                    newNewList.Remove(guest);
+                                }
+                            }
+                            newList = newNewList;
+                        }
+                    }
+                    else
+                    {
+                        int length = int.Parse(cmdArgs[2]);
+                        foreach (var guest in newList)
+                        {
+                            if (guest.Length==length)
+                            {
+                                if (newNewList.Contains(guest))
+                                {
+                                    newNewList.Remove(guest);
+                                }
+                            }
+                            newList = newNewList;
+                        }
+                    }
+                }
+                else
+                {
+                    if (type == "Starts with")
+                    {
+                        char letter = char.Parse(cmdArgs[2]);
+                        int counter = 0;
+                        if (guests.Any(g=>g.StartsWith(letter))&&!newList.Any(g=>g.StartsWith(letter)))
+                        {
+                            foreach (var guest in guests)
+                            {
+                                if (guest.StartsWith(letter))
+                                {
+                                    newList.Insert(counter,guest);
+                                }
+                                counter++;
+                            }
+                        }
+                    }
+                    else if (type == "Ends with")
+                    {
+                        char letter = char.Parse(cmdArgs[2]);
+                        int counter = 0;
+                        if (guests.Any(g => g.EndsWith(letter)) && !newList.Any(g => g.EndsWith(letter)))
+                        {
+                            foreach (var guest in guests)
+                            {
+                                if (guest.EndsWith(letter))
+                                {
+                                    newList.Insert(counter, guest);
+                                }
+                                counter++;
+                            }
+                        }
+                    }
+                    else if (type == "Contains")
+                    {
+                        char letter = char.Parse(cmdArgs[2]);
+                        int counter = 0;
+                        if (guests.Any(g => g.Contains(letter)) && !newList.Any(g => g.Contains(letter)))
+                        {
+                            foreach (var guest in guests)
+                            {
+                                if (guest.Contains(letter))
+                                {
+                                    newList.Insert(counter, guest);
+                                }
+                                counter++;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        int length = int.Parse(cmdArgs[2]);
+                        int counter = 0;
+                        if (guests.Any(g => g.Length==length) && !newList.Any(g => g.Length == length))
+                        {
+                            foreach (var guest in guests)
+                            {
+                                if (guest.Length == length)
+                                {
+                                    newList.Insert(counter, guest);
+                                }
+                                counter++;
+                            }
+                        }
+                    }
+                }
+            }
+            var newGuests = new List<string>(guests);
+            foreach (var guest in newGuests)
+            {
+                if (!newList.Contains(guest))
+                {
+                    guests.Remove(guest);
+                }
+            } 
+
+            Console.WriteLine(String.Join(' ', guests));
+
+        }
+    }
+}
