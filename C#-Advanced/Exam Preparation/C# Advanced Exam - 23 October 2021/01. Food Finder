@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp2
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            var porkWord = new Dictionary<char, int>();
+            porkWord['p'] = 0;
+            porkWord['o'] = 0;
+            porkWord['r'] = 0;
+            porkWord['k'] = 0;
+            var flourWord = new Dictionary<char, int>();
+            flourWord['f'] = 0;
+            flourWord['l'] = 0;
+            flourWord['o'] = 0;
+            flourWord['u'] = 0;
+            flourWord['r'] = 0;
+            var pearWord = new Dictionary<char, int>();
+            pearWord['p'] = 0;
+            pearWord['e'] = 0;
+            pearWord['a'] = 0;
+            pearWord['r'] = 0;
+            var oliveWord = new Dictionary<char, int>();
+            oliveWord['o']= 0;
+            oliveWord['l'] = 0;
+            oliveWord['i'] = 0;
+            oliveWord['v'] = 0;
+            oliveWord['e'] = 0;
+
+            char[] inputVowels = Console.ReadLine()
+                .Split()
+                .Select(char.Parse)
+                .ToArray();
+            char[] inputConstants = Console.ReadLine()
+                .Split()
+                .Select(char.Parse)
+                .ToArray();
+
+            Queue<char> vowels = new Queue<char>(inputVowels);
+            Stack<char> constannts = new Stack<char>(inputConstants);
+
+            while (constannts.Count>0)
+            {
+                var vowel = vowels.Dequeue();
+                var constant = constannts.Pop();
+                if (porkWord.ContainsKey(vowel))
+                {
+                    porkWord[vowel]++;
+                }
+                if (porkWord.ContainsKey(constant))
+                {
+                    porkWord[constant]++;
+                }
+                if (pearWord.ContainsKey(vowel))
+                {
+                    pearWord[vowel]++;
+                }
+                if (pearWord.ContainsKey(constant))
+                {
+                    pearWord[constant]++;
+                }
+                if (oliveWord.ContainsKey(vowel))
+                {   
+                    oliveWord[vowel]++;
+                }   
+                if (oliveWord.ContainsKey(constant))
+                {   
+                    oliveWord[constant]++;
+                }
+                if (flourWord.ContainsKey(vowel))
+                {   
+                    flourWord[vowel]++;
+                }   
+                if (flourWord.ContainsKey(constant))
+                {   
+                    flourWord[constant]++;
+                }
+                vowels.Enqueue(vowel);
+            }
+            List<string> words = new List<string>();
+            if (!pearWord.Values.Contains(0))
+            {
+                words.Add("pear");
+            }
+            if (!flourWord.Values.Contains(0))
+            {
+                words.Add("flour");
+            }
+            if (!porkWord.Values.Contains(0))
+            {
+                words.Add("pork");
+            }
+            if (!oliveWord.Values.Contains(0))
+            {
+                words.Add("olive");
+            }
+
+            Console.WriteLine($"Words found: {words.Count}");
+            foreach (string word in words)
+            {
+                Console.WriteLine(word);
+            }
+        }
+    }
+}
