@@ -1,0 +1,220 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Position
+    {
+        public Position(string name, int row, int col)
+        {
+            Row = row;
+            Col = col;
+            Name = name;
+        }
+
+        public int Row { get; set; }
+        public int Col { get; set; }
+
+        public string Name { get; set; }
+
+        public void ChangePosition(Position other)
+        {
+            Row=other.Row;
+            Col=other.Col;
+        }
+    }
+    internal class Program
+    {
+          static int n = int.Parse(Console.ReadLine());
+          static char[,] armory = new char[n, n];
+        static void Main(string[] args)
+        {
+            //Input
+            Position officerPosition = new Position("officer" ,0, 0);
+            List<Position> mirrorList = new List<Position>();
+            var FirstMirrorPosition = new Position("firsMirror", -1, 0);
+            var SecondMirrorPosition = new Position("SecondMirror", 0, 0);
+            int swordsCount = 0;
+            int price = 0;
+            const int  MinPrice = 65;
+
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+                for (int j = 0; j < n; j++)
+                {
+                    armory[i, j] = input[j];
+                    if (input[j] == 'A')
+                    {
+                        officerPosition.Row = i;
+                        officerPosition.Col = j;
+
+                    }
+                    if (char.IsDigit(input[j]))
+                    {
+                        swordsCount++;
+                    }
+                    if (input[j]=='M')
+                    {
+                        if (FirstMirrorPosition.Row ==-1)
+                        {
+                            FirstMirrorPosition.Row = i;
+                            FirstMirrorPosition.Col = j;
+                        }
+                        else
+                        {
+                            SecondMirrorPosition.Row= i;
+                            SecondMirrorPosition.Col = j;
+                        }
+                    }
+            mirrorList.Add(FirstMirrorPosition);
+            mirrorList.Add(SecondMirrorPosition);
+                }
+            }
+
+            // Buy Swords
+            while (price<=MinPrice)
+            {
+                string direction = Console.ReadLine();
+                if (IsInside(armory,officerPosition.Row,officerPosition.Col))
+                {
+                    if(direction == "up")
+                    {
+                        armory[officerPosition.Row, officerPosition.Col] = '-';
+                        officerPosition.Row--;
+                        if (IsInside(armory, officerPosition.Row, officerPosition.Col))
+                        {
+                            if (armory[officerPosition.Row, officerPosition.Col] == 'M')
+                            {
+                                var otherMirror = mirrorList.First(m => m.Row != officerPosition.Row && m.Col != officerPosition.Col);
+                                var currentMirror = mirrorList.First(m => m.Row == officerPosition.Row && m.Col == officerPosition.Col);
+
+                                officerPosition.ChangePosition(otherMirror);
+                                armory[currentMirror.Row, currentMirror.Col] = '-';
+                                armory[otherMirror.Row, otherMirror.Col] = 'A';
+                            }
+                            if (char.IsDigit(armory[officerPosition.Row, officerPosition.Col]))
+                            {
+                                swordsCount--;
+                                price += (int)armory[officerPosition.Row, officerPosition.Col] - 48;
+                                armory[officerPosition.Row, officerPosition.Col] = 'A';
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    else if (direction == "down")
+                    {
+                        armory[officerPosition.Row, officerPosition.Col] = '-';
+                        officerPosition.Row++;
+                        if (IsInside(armory, officerPosition.Row, officerPosition.Col))
+                        {
+                            if (armory[officerPosition.Row, officerPosition.Col] == 'M')
+                            {
+                                var otherMirror = mirrorList.First(m => m.Row != officerPosition.Row && m.Col != officerPosition.Col);
+                                var currentMirror = mirrorList.First(m => m.Row == officerPosition.Row && m.Col == officerPosition.Col);
+
+                                officerPosition.ChangePosition(otherMirror);
+                                armory[currentMirror.Row, currentMirror.Col] = '-';
+                                armory[otherMirror.Row, otherMirror.Col] = 'A';
+                            }
+                            if (char.IsDigit(armory[officerPosition.Row, officerPosition.Col]))
+                            {
+                                swordsCount--;
+                                price += (int)armory[officerPosition.Row, officerPosition.Col] - 48;
+                                armory[officerPosition.Row, officerPosition.Col] = 'A';
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                     else if (direction == "left")
+                    {
+                            armory[officerPosition.Row, officerPosition.Col] = '-';
+                            officerPosition.Col--;
+                        if (IsInside(armory, officerPosition.Row, officerPosition.Col))
+                        {
+                            if (armory[officerPosition.Row, officerPosition.Col] == 'M')
+                            {
+                                var otherMirror = mirrorList.First(m => m.Row != officerPosition.Row && m.Col != officerPosition.Col);
+                                var currentMirror = mirrorList.First(m => m.Row == officerPosition.Row && m.Col == officerPosition.Col);
+
+                                officerPosition.ChangePosition(otherMirror);
+                                armory[currentMirror.Row, currentMirror.Col] = '-';
+                                armory[otherMirror.Row, otherMirror.Col] = 'A';
+                            }
+                            if (char.IsDigit(armory[officerPosition.Row, officerPosition.Col]))
+                            {
+                                swordsCount--;
+                                price += (int)armory[officerPosition.Row, officerPosition.Col] - 48;
+                                armory[officerPosition.Row, officerPosition.Col] = 'A';
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                     else if (direction == "right")
+                    {
+                        armory[officerPosition.Row, officerPosition.Col] = '-';
+                        officerPosition.Col++;
+                        if (IsInside(armory, officerPosition.Row, officerPosition.Col))
+                        {
+                            if (armory[officerPosition.Row, officerPosition.Col] == 'M')
+                            {
+                                var otherMirror = mirrorList.First(m => m.Row != officerPosition.Row && m.Col != officerPosition.Col);
+                                var currentMirror = mirrorList.First(m => m.Row == officerPosition.Row && m.Col == officerPosition.Col);
+
+                                officerPosition.ChangePosition(otherMirror);
+                                armory[currentMirror.Row, currentMirror.Col] = '-';
+                                armory[otherMirror.Row, otherMirror.Col] = 'A';
+                            }
+                            if (char.IsDigit(armory[officerPosition.Row, officerPosition.Col]))
+                            {
+                                swordsCount--;
+                                price += (int)armory[officerPosition.Row, officerPosition.Col] - 48;
+                                armory[officerPosition.Row, officerPosition.Col] = 'A';
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+            // Output
+
+            if (price<=MinPrice)
+            {
+                Console.WriteLine("I do not need more swords!");
+            }
+            else
+            {
+                Console.WriteLine("Very nice swords, I will come back for more!");
+            }
+            Console.WriteLine($"The king paid {price} gold coins.");
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Console.Write(armory[i,j]);
+                }
+                Console.WriteLine();
+            }
+        }
+
+        static bool IsInside(char[,] armory ,int row, int col)
+        {
+            return row>=0 && row < armory.GetLength(0)&& col>=0 && col<armory.GetLength(1);
+        }
+    }
+}
