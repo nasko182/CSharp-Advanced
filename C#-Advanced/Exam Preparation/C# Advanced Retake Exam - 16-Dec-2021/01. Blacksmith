@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //Input and Data
+
+            int[] inputSteel = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            int[] inputCarbon = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            var steel = new Queue<int>(inputSteel);
+            var carbon = new Stack<int>(inputCarbon);
+            Dictionary<string, int> swordsMap = new Dictionary<string, int>();
+            swordsMap["Gladius"] = 70;
+            swordsMap["Shamshir"] = 80;
+            swordsMap["Katana"] = 90;
+            swordsMap["Sabre"] = 110;
+            swordsMap["Broadsword"] = 150;
+            Dictionary<string, int> swordsCount = new Dictionary<string, int>();
+            swordsCount["Gladius"] = 0;
+            swordsCount["Shamshir"] = 0;
+            swordsCount["Katana"] = 0;
+            swordsCount["Sabre"] = 0;
+            swordsCount["Broadsword"] = 0;
+            
+
+
+
+            //Create Swords 
+
+            while (steel.Count > 0 && carbon.Count > 0)
+            {
+                var currentSteel = steel.Dequeue();
+                var currentCarbon = carbon.Pop();
+                int sum = currentCarbon + currentSteel;
+                if (swordsMap.ContainsValue(sum))
+                {
+                    var currentSword = swordsMap.First(s => s.Value == sum);
+                    swordsCount[currentSword.Key]++;
+                }
+                else
+                {
+                    currentCarbon += 5;
+                    carbon.Push(currentCarbon);
+                }
+            }
+
+            // Output
+            int totalSwordsCount = swordsCount.Sum(s => s.Value);
+            if (totalSwordsCount>0)
+            {
+                Console.WriteLine($"You have forged {totalSwordsCount} swords.");
+            }
+            else
+            {
+                Console.WriteLine("You did not have enough resources to forge a sword.");
+            }
+            if (steel.Count==0)
+            {
+                Console.WriteLine("Steel left: none");
+            }
+            else
+            {
+                Console.WriteLine($"Steel left: {string.Join(", ",steel)}");
+            }
+            if (carbon.Count==0)
+            {
+                Console.WriteLine("Carbon left: none");
+            }
+            else
+            {
+                Console.WriteLine($"Carbon left: {string.Join(", ",carbon)}");
+            }
+            foreach(var sword in swordsCount.OrderBy(s=>s.Key))
+            {
+                if (sword.Value>0)
+                {
+                    Console.WriteLine($"{sword.Key}: {sword.Value}");
+                }
+            }
+        }
+    }
+}
